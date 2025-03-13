@@ -1,5 +1,6 @@
 package com.mit.curd.serviceImp;
 
+import com.mit.curd.customExeption.CountryNotFoundException;
 import com.mit.curd.customExeption.StudentNotFoundException;
 import com.mit.curd.dto.StudentDTO;
 import com.mit.curd.entity.Country;
@@ -54,12 +55,30 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO updateStudent(long sId, StudentDTO studentDTO) {
-        return null;
+        Student exitingStudent = studentRepository.findById(sId)
+                .orElseThrow(() -> new StudentNotFoundException("Student with ID : " + sId + " is not found."));
+
+        exitingStudent.setName(studentDTO.getName());
+        exitingStudent.setFather_name(studentDTO.getFather_name());
+        exitingStudent.setMother_name(studentDTO.getMother_name());
+        exitingStudent.setDob(studentDTO.getDob());
+        exitingStudent.setPhone(studentDTO.getPhone());
+        exitingStudent.setRemark(studentDTO.getRemark());
+        exitingStudent.setGender(studentDTO.getGender());
+        exitingStudent.setEmail(studentDTO.getEmail());
+        if (studentDTO.getCountryId() != 0) {
+            Country country = countryRepository.findById(studentDTO.getCountryId())
+                    .orElseThrow(() -> new CountryNotFoundException("Country with Id : " + studentDTO.getCountryId() + " is not found"));
+            exitingStudent.setCountry(country);
+        }
+        exitingStudent = studentRepository.save(exitingStudent);
+        studentDTO.setsId(exitingStudent.getsId());
+        return studentDTO;
     }
 
     @Override
     public Optional<StudentDTO> getStudentById(long sId) {
-       Optional<Student>st = studentRepository.findById(sId);
+        Optional<Student> st = studentRepository.findById(sId);
         return st.map(this::convertToDTO);
     }
 
