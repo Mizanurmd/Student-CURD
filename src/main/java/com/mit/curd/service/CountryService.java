@@ -1,19 +1,22 @@
 package com.mit.curd.service;
 
+import com.mit.curd.dto.CountryDTO;
 import com.mit.curd.entity.Country;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryService {
-    Country createCountry(Country country);
+    CountryDTO createCountry(CountryDTO country);
 
-    Country updateCountry(long cId, Country country);
+    CountryDTO updateCountry(long cId, CountryDTO country);
 
-    Country getCountryById(long cId);
+    Optional<CountryDTO> getCountryById(long cId);
 
-    List<Country> getAllCountry();
+    List<CountryDTO> getAllCountry();
 
     String deleteCountry(long cId);
+
 
 
 }

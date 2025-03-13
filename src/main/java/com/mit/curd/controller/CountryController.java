@@ -1,6 +1,7 @@
 package com.mit.curd.controller;
 
-import com.mit.curd.entity.Country;
+import com.mit.curd.customExeption.CountryNotFoundException;
+import com.mit.curd.dto.CountryDTO;
 import com.mit.curd.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,28 +21,25 @@ public class CountryController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Country> saveCountry(@RequestBody Country country) {
-        Country createCount = countryService.createCountry(country);
-        System.out.println("Country details : " + createCount);
-        return new ResponseEntity<>(createCount, HttpStatus.CREATED);
+    public ResponseEntity<CountryDTO> saveCountry(@RequestBody CountryDTO countryDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.createCountry(countryDTO));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Country> updateCountryData(@PathVariable("id") long cId, @RequestBody Country country) {
-        Country updateData = countryService.updateCountry(cId, country);
+    public ResponseEntity<CountryDTO> updateCountryData(@PathVariable("id") long cId, @RequestBody CountryDTO countryDTO) {
+        CountryDTO updateData = countryService.updateCountry(cId, countryDTO);
         return new ResponseEntity<>(updateData, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Country>> getAllCountry() {
-        List<Country> countryList = countryService.getAllCountry();
-        return new ResponseEntity<>(countryList, HttpStatus.OK);
+    public ResponseEntity<List<CountryDTO>> getAllCountry() {
+        return ResponseEntity.status(HttpStatus.OK).body(countryService.getAllCountry());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Country> getStudentById(@PathVariable("id") long cId) {
-        Country c = countryService.getCountryById(cId);
-        return new ResponseEntity<>(c, HttpStatus.OK);
+    public ResponseEntity<CountryDTO> getStudentById(@PathVariable("id") long cId) {
+        return countryService.getCountryById(cId).map(ResponseEntity::ok)
+                .orElseThrow(() -> new CountryNotFoundException("Country with ID : " + cId + " is not found."));
     }
 
     @DeleteMapping("/{id}")

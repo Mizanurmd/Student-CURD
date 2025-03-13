@@ -7,15 +7,20 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "country")
+@Table(name = "country", uniqueConstraints = @UniqueConstraint(columnNames = "cCode"))
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long cId;
+    @Column(nullable = false, unique = true)
     private String cCode;
+    @Column(nullable = false)
     private String country_name;
+    @Column(nullable = false)
     private String currency_name;
+    @Column(nullable = false)
     private String language;
+    @Column(nullable = true)
     private String nationality;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)

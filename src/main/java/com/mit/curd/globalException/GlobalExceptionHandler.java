@@ -1,6 +1,7 @@
 package com.mit.curd.globalException;
 
 import com.mit.curd.customExeption.CountryNotFoundException;
+import com.mit.curd.customExeption.DuplicateResourceException;
 import com.mit.curd.customExeption.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<String> HandleStudentNotFoundException(StudentNotFoundException ex) {
+    public ResponseEntity<String> handleStudentNotFoundException(StudentNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CountryNotFoundException.class)
-    public ResponseEntity<String> HandleCountryNotFoundException(CountryNotFoundException ex) {
+    public ResponseEntity<String> handleCountryNotFoundException(CountryNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String>handleDuplicateResource(DuplicateResourceException ex){
+        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

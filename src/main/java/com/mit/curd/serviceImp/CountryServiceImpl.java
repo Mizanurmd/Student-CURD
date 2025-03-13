@@ -1,13 +1,16 @@
 package com.mit.curd.serviceImp;
 
 import com.mit.curd.customExeption.CountryNotFoundException;
+import com.mit.curd.customExeption.DuplicateResourceException;
+import com.mit.curd.dto.CountryDTO;
 import com.mit.curd.entity.Country;
 import com.mit.curd.repository.CountryRepository;
 import com.mit.curd.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -20,34 +23,49 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country createCountry(Country country) {
-        return countryRepository.save(country);
+    public CountryDTO createCountry(CountryDTO countryDTO) {
+        if (countryRepository.existsBycCode(countryDTO.getcCode())) {
+            throw new DuplicateResourceException("Country code '" + countryDTO.getcCode() + "' already exists.");
+        }
+        Country country = new Country();
+        country.setcCode(countryDTO.getcCode());
+        country.setCountry_name(countryDTO.getCountry_name());
+        country.setCurrency_name(countryDTO.getCurrency_name());
+        country.setLanguage(countryDTO.getLanguage());
+        country.setNationality(countryDTO.getNationality());
+
+        Country saveCountry = countryRepository.save(country);
+        countryDTO.setcId(saveCountry.getcId());
+        return countryDTO;
     }
 
     @Override
-    public Country updateCountry(long cId, Country country) {
+    public CountryDTO updateCountry(long cId, CountryDTO countryDTO) {
+        if (countryRepository.existsBycCode(countryDTO.getcCode())) {
+            throw new DuplicateResourceException("Country code '" + countryDTO.getcCode() + "' already exists.");
+        }
         Country existingCountry = countryRepository.findById(cId)
                 .orElseThrow(() -> new CountryNotFoundException("Country with ID : " + cId + " is not founded."));
-        existingCountry.setcCode(country.getcCode());
-        existingCountry.setCountry_name(country.getCountry_name());
-        existingCountry.setCurrency_name(country.getCurrency_name());
-        existingCountry.setLanguage(country.getLanguage());
-        existingCountry.setNationality(country.getNationality());
+        existingCountry.setcCode(countryDTO.getcCode());
+        existingCountry.setCountry_name(countryDTO.getCountry_name());
+        existingCountry.setCurrency_name(countryDTO.getCurrency_name());
+        existingCountry.setLanguage(countryDTO.getLanguage());
+        existingCountry.setNationality(countryDTO.getNationality());
 
-
-
-        return countryRepository.save(existingCountry);
+        Country updateCountry = countryRepository.save(existingCountry);
+        countryDTO.setcId(updateCountry.getcId());
+        return countryDTO;
     }
 
     @Override
-    public Country getCountryById(long cId) {
-        return countryRepository.findById(cId)
-                .orElseThrow(() -> new CountryNotFoundException("Country with ID : " + cId + " is not found."));
+    public Optional<CountryDTO> getCountryById(long cId) {
+        Optional<Country> country = countryRepository.findById(cId);
+        return country.map(this::convertToDTO);
     }
 
     @Override
-    public List<Country> getAllCountry() {
-        return countryRepository.findAll();
+    public List<CountryDTO> getAllCountry() {
+        return countryRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -57,4 +75,17 @@ public class CountryServiceImpl implements CountryService {
         countryRepository.delete(country);
         return "Country with " + cId + " Has been successfully deleted.";
     }
+
+    private CountryDTO convertToDTO(Country country) {
+        CountryDTO dto = new CountryDTO();
+        dto.setcId(country.getcId());
+        dto.setcCode(country.getcCode());
+        dto.setCurrency_name(country.getCurrency_name());
+        dto.setLanguage(country.getLanguage());
+        dto.setNationality(country.getNationality());
+
+        return dto;
+    }
+
+
 }
