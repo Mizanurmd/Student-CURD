@@ -41,9 +41,6 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public CountryDTO updateCountry(long cId, CountryDTO countryDTO) {
-        if (countryRepository.existsBycCode(countryDTO.getcCode())) {
-            throw new DuplicateResourceException("Country code '" + countryDTO.getcCode() + "' already exists.");
-        }
         Country existingCountry = countryRepository.findById(cId)
                 .orElseThrow(() -> new CountryNotFoundException("Country with ID : " + cId + " is not founded."));
         existingCountry.setcCode(countryDTO.getcCode());
