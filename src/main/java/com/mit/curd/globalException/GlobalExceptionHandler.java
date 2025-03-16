@@ -2,6 +2,7 @@ package com.mit.curd.globalException;
 
 import com.mit.curd.customExeption.CountryNotFoundException;
 import com.mit.curd.customExeption.DuplicateResourceException;
+import com.mit.curd.customExeption.NotFoundId;
 import com.mit.curd.customExeption.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<String>handleDuplicateResource(DuplicateResourceException ex){
-        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(NotFoundId.class)
+    public ResponseEntity<String>handleIdNotFound(NotFoundId ex){
+        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
