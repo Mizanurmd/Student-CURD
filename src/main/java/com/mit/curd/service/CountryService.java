@@ -1,7 +1,6 @@
 package com.mit.curd.service;
 
 import com.mit.curd.dto.CountryDTO;
-import com.mit.curd.entity.Country;
 
 import java.util.List;
 import java.util.Optional;

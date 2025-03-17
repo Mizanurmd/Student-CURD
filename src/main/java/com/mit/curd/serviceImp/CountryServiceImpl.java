@@ -3,7 +3,7 @@ package com.mit.curd.serviceImp;
 import com.mit.curd.customExeption.CountryNotFoundException;
 import com.mit.curd.customExeption.DuplicateResourceException;
 import com.mit.curd.dto.CountryDTO;
-import com.mit.curd.entity.Country;
+import com.mit.curd.dto.entity.Country;
 import com.mit.curd.repository.CountryRepository;
 import com.mit.curd.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;

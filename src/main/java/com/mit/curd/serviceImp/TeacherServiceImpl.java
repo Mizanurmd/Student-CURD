@@ -2,7 +2,7 @@ package com.mit.curd.serviceImp;
 
 import com.mit.curd.customExeption.NotFoundId;
 import com.mit.curd.dto.TeacherDTO;
-import com.mit.curd.entity.Teacher;
+import com.mit.curd.dto.entity.Teacher;
 import com.mit.curd.repository.TeacherRepository;
 import com.mit.curd.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;

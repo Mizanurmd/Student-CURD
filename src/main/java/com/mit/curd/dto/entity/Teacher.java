@@ -1,18 +1,26 @@
-package com.mit.curd.dto;
+package com.mit.curd.dto.entity;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherDTO {
+@Entity
+@Table(name = "teacher")
+public class Teacher {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tId;
+
     private String name;
     private String fatherName;
     private String motherName;
@@ -31,5 +39,10 @@ public class TeacherDTO {
     private LocalDate endDate;
     private String remarks;
 
+    @Lob
+    private byte[] photo;
+
+    @Lob
+    private byte[] attachment;
 
 }

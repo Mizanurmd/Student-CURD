@@ -1,7 +1,6 @@
 package com.mit.curd.service;
 
 import com.mit.curd.dto.StudentDTO;
-import com.mit.curd.entity.Student;
 
 import java.util.List;
 import java.util.Optional;

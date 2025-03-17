@@ -1,6 +1,6 @@
 package com.mit.curd.repository;
 
-import com.mit.curd.entity.Student;
+import com.mit.curd.dto.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
