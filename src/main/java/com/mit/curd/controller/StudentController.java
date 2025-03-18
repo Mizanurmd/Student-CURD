@@ -2,6 +2,7 @@ package com.mit.curd.controller;
 
 import com.mit.curd.customExeption.StudentNotFoundException;
 import com.mit.curd.dto.StudentDTO;
+import com.mit.curd.entity.Student;
 import com.mit.curd.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,6 @@ public class StudentController {
     }
 
 
-
     @PutMapping("/update/{id}")
     public ResponseEntity<StudentDTO> updateStudent(@PathVariable("id") long sId, @RequestBody StudentDTO studentDTO) {
         StudentDTO updatedStud = studentService.updateStudent(sId, studentDTO);
@@ -49,6 +49,13 @@ public class StudentController {
     public ResponseEntity<String> deleteStudentById(@PathVariable("id") long sId) {
         String message = studentService.deleteStudent(sId);
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> searchAllStudents(@RequestParam String keyword) {
+        System.out.println("Keyword : " + keyword);
+        List<Student> list = studentService.searchStudent(keyword);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

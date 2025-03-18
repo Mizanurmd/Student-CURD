@@ -94,6 +94,12 @@ public class StudentServiceImpl implements StudentService {
         return "Student with ID :" + sId + " has been successfully deleted.";
     }
 
+    @Override
+    public List<Student> searchStudent(String keyword) {
+        return studentRepository.searchStudents(keyword);
+    }
+
+
     private StudentDTO convertToDTO(Student student) {
         StudentDTO dto = new StudentDTO();
         dto.setsId(student.getsId());
@@ -111,5 +117,6 @@ public class StudentServiceImpl implements StudentService {
         }
         return dto;
     }
+
 
 }

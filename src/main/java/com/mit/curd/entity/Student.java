@@ -4,10 +4,8 @@ import com.mit.curd.enums.Gender;
 import jakarta.persistence.*;
 
 
-
-
 @Entity
-@Table(name="student")
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +16,6 @@ public class Student {
     private String dob;
     private String phone;
     private String remark;
-
     private Gender gender;
     private String email;
 

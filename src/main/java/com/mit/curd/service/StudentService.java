@@ -11,9 +11,12 @@ public interface StudentService {
 
     StudentDTO updateStudent(long sId, StudentDTO studentDTO);
 
-   Optional<StudentDTO>getStudentById(long sId);
+    Optional<StudentDTO> getStudentById(long sId);
 
     List<StudentDTO> getAllStudents();
 
     String deleteStudent(long sId);
+
+    List<Student> searchStudent(String keyword);
+
 }
