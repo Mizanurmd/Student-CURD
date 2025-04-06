@@ -34,7 +34,7 @@ class EmployeeTest {
 
     @AfterEach
     void tearDown() {
-        employee = null;
+       System.out.println("After completed test =====================::: "+employee);
     }
 
     @Test
