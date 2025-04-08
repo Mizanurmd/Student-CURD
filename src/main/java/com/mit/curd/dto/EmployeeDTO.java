@@ -17,4 +17,6 @@ public class EmployeeDTO {
     private String phone;
     private String photoBase64;
     private AddressDTO address;
+
+
 }
